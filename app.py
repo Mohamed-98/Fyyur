@@ -13,6 +13,11 @@ from logging import Formatter, FileHandler
 from flask_wtf import Form
 from flask_migrate import Migrate
 from forms import *
+from flask_migrate import Migrate
+import sys
+from sqlalchemy import func
+import datetime
+
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -115,18 +120,17 @@ def index():
 
 @app.route('/venues')
 def venues():
-  # TODO: replace with real venues data.
-  #       num_shows should be aggregated based on number of upcoming shows per venue.
-  areas = db.session.query(Venue.city, Venue.state).distinct()
-  data = []
-   for venue in areas:
+    areas = db.session.query(Venue.city, Venue.state).distinct()
+    data = []
+#New version
+    for venue in areas:
         venue = dict(zip(('city', 'state'), venue))
         venue['venues'] = []
         for venue_data in Venue.query.filter_by(
-            city = venue['city'],
-            state = venue['state']
+            city=venue['city'],
+            state=venue['state']
         ).all():
-                shows = Show.query.filter_by(
+            shows = Show.query.filter_by(
                 venue_id=venue_data.id
             ).all()
             venues_data = {
@@ -137,28 +141,7 @@ def venues():
         venue['venues'].append(venues_data)
     data.append(venue)
 
-  """data=[{
-    "city": "San Francisco",
-    "state": "CA",
-    "venues": [{
-      "id": 1,
-      "name": "The Musical Hop",
-      "num_upcoming_shows": 0,
-    }, {
-      "id": 3,
-      "name": "Park Square Live Music & Coffee",
-      "num_upcoming_shows": 1,
-    }]
-  }, {
-    "city": "New York",
-    "state": "NY",
-    "venues": [{
-      "id": 2,
-      "name": "The Dueling Pianos Bar",
-      "num_upcoming_shows": 0,
-    }]
-  }]"""
-  return render_template('pages/venues.html', areas=data)
+    return render_template('pages/venues.html', areas=data)
 
 @app.route('/venues/search', methods=['POST'])
 #Add New
@@ -184,7 +167,7 @@ def search_venues():
 
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
-"""new data """
+#new data
     venue = Venue.query.filter_by(id=venue_id).first()
 
     data = {
@@ -333,17 +316,16 @@ def search_artists():
 def show_artist(artist_id):
 #showing the venue page with the given venue_id
     artist = Artist.query.get(artist_id)
-"""
-     upcoming_shows = [
-     show for show in Show.query.filter(
-       Show.start_time > datetime.datetime.now(),
-       Show.artist_id == Show.artist_id).all()]
-     past_shows = [
-       show for show in Show.query.filter(
-       Show.start_time < datetime.datetime.now(),
-       Show.artist_id == Show.id).all()
-     ]
-"""
+
+     #upcoming_shows = [
+     #show for show in Show.query.filter(
+      # Show.start_time > datetime.datetime.now(),
+       #Show.artist_id == Show.artist_id).all()]
+     #past_shows = [
+      # show for show in Show.query.filter(
+       #Show.start_time < datetime.datetime.now(),
+       #Show.artist_id == Show.id).all()
+     #]
 #NEW DATA
     data = {
         'id': artist.id,
@@ -359,11 +341,11 @@ def show_artist(artist_id):
         'seeking_venue': artist.seeking_venue,
         'seeking_description': artist.seeking_description,
 
-        """# 'upcoming_shows': upcoming_shows,
+        # 'upcoming_shows': upcoming_shows,
         # 'past_shows': past_shows,
         # 'upcoming_shows_count': len(upcoming_shows),
-        # 'past_shows_count': len(past_shows),"""
-    }
+        # 'past_shows_count': len(past_shows),
+          }
 
     return render_template('pages/show_artist.html', artist=data)
 
