@@ -8,9 +8,11 @@ class ShowForm(Form):
     artist_id = StringField(
         'artist_id'
     )
+    
     venue_id = StringField(
         'venue_id'
     )
+
     start_time = DateTimeField(
         'start_time',
         validators = [DataRequired()],
@@ -22,9 +24,11 @@ class VenueForm(Form):
     name = StringField(
         'name', validators=[DataRequired()]
     )
+
     city = StringField(
         'city', validators=[DataRequired()]
     )
+
     state = SelectField(
         'state', validators=[DataRequired()],
         choices=[
@@ -81,15 +85,19 @@ class VenueForm(Form):
             ('WY', 'WY'),
         ]
     )
+
     address = StringField(
         'address', validators=[DataRequired()]
     )
+
     phone = StringField(
         'phone', validators = [DataRequired()]
     )
+
     image_link = StringField(
         'image_link', validators = [DataRequired()]
     )
+
     genres = SelectMultipleField(
         # TODO implement enum restriction
         'genres', validators=[DataRequired()],
@@ -118,19 +126,24 @@ class VenueForm(Form):
     facebook_link = StringField(
         'facebook_link', validators=[URL()]
     )
+
     #NEW PART HERE
     website = StringField(
         'website', validators=[URL()]
     )
+
     image_link = StringField(
         'image_link', validators=[URL()]
     )
+
     seeking_talent = BooleanField(
         'seeking_talent'
     )
+
     seeking_description = StringField(
         'seeking_description'
     )
+
 
 
 class ArtistForm(Form):
@@ -200,11 +213,14 @@ class ArtistForm(Form):
         # TODO implement validation logic for state
         'phone', validators=[DataRequired()]
     )
+
     #image_link = StringField(
     #    'image_link'
     #)
+
     genres = SelectMultipleField(
         # TODO implement enum restriction
+
         'genres', validators=[DataRequired()],
         choices=[
             ('Alternative', 'Alternative'),
